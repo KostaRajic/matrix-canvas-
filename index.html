@@ -12,110 +12,40 @@
   </head>
   <body>
 
-    <div class="controls">
-      <button class="clear">Clear</button><span>Color
-        <input type="color" value="#ffff00" id="penColor">
-      </span>
-      <span>width
-        <input type="range" min="1" max="20" value="10" id="penWidth">
-      </span>
-    </div>
-    <canvas id="canvas"></canvas>
-
+  </iframe>
+  
+   
     <script>
-      
-      window.onload = init;
-      const canvas = document.getElementById('canvas')
-      const ctx = canvas.getContext('2d')
-      const btn = document.querySelector('button')
-      const inputColor = document.querySelector('#penColor')
-      const inputRange = document.querySelector('#penWidth')
-      canvas.width = 700;
-      canvas.height = 700;
-      const clearImg = () => {
-        const temp = confirm('Clear Img?');
-        if (temp) {
-          ctx.clearRect(0, 0, canvas.offsetHeight, canvas.offsetWidth)
-        }
+      const canvasElem = document.createElement('canvas');
+      const getContent = canvasElem.getContext('2d')
+      canvasElem.setAttribute('width', '500')
+      canvasElem.setAttribute('height', '400');
+      document.body.prepend(canvasElem)
+      let colVal = [];
+      for (let i = 0; i < 50; i++) {
+        colVal.push(0)
       }
-      btn.addEventListener('click', clearImg);
+      console.log(colVal)
 
-      const pos = {
-        x: 0,
-        y: 0
-      }
+      function matrix() {
+        getContent.fillStyle = 'rgba(0,0,0,0.5)';
+        getContent.fillRect(0, 0, canvasElem.width, canvasElem.height);
+        getContent.fillStyle  = 'green';
 
-      function init() {
-        canvas.addEventListener('mousemove', draw)
-        canvas.addEventListener('mousemove', setPosition);
-        canvas.addEventListener('mouseenter', setPosition)
-      }
-
-      function draw(e) {
-        if (e.buttons !== 1) return;
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
-        setPosition(e);
-        ctx.lineTo(pos.x, pos.y);
-        ctx.lineWidth = inputRange.value;
-
-        ctx.strokeStyle = inputColor.value;
-        ctx.lineCap = 'round';
-        ctx.stroke();
+        colVal.map((posY, index) => {
+          const output = Math.random() < 0.5 ? 0 : 1;
+          posX = (index * 10) + 10;
+          getContent.fillText(output, posX, posY);
+          if (posY > 100 + Math.random() * 300) {
+            colVal[index] = 0
+          } else {
+            colVal[index] = posY + 10;
+          }
+        }) 
       }
 
-      function setPosition(e) {
-        pos.x = e.pageX;
-        pos.y = e.pageY;
-      }
+      setInterval(matrix, 500)
 
-
-
-      // window.onload = init;
-      // const canvas = document.getElementById('canvas');
-      // const ctx = canvas.getContext('2d');
-      // const btn = document.querySelector('button');
-      // const inputColor = document.querySelector('#penColor');
-      // const inputRange = document.querySelector('#penWidth');
-      // canvas.width = 700;
-      // canvas.height = 700;
-
-      // btn.addEventListener('click', clearImg);
-
-      // const pos = {
-      //   x: 0,
-      //   y: 0
-      // };
-
-      // function draw() {
-      //   canvas.addEventListener('mousemove', drawLine);
-      //   canvas.addEventListener('mousemove', setPosition);
-      //   canvas.addEventListener('mouseenter', setPosition);
-      // }
-
-      // function drawLine(e) {
-      //   if (e.buttons !== 1) return; // Only draw if left mouse button is pressed
-      //   ctx.beginPath();
-      //   ctx.moveTo(pos.x, pos.y);
-      //   setPosition(e); // Update position
-      //   ctx.lineTo(pos.x, pos.y);
-      //   ctx.lineWidth = inputRange.value; // Pen width
-      //   ctx.strokeStyle = inputColor.value; // Pen color
-      //   ctx.lineCap = 'round'; // Smooth corners
-      //   ctx.stroke();
-      // }
-
-      // function setPosition(e) {
-      //   pos.x = e.pageX - canvas.offsetLeft; // Adjust for canvas position
-      //   pos.y = e.pageY - canvas.offsetTop;
-      // }
-
-      // const clearImg = () => {
-      //   const temp = confirm('Clear Img?');
-      //   if (temp) {
-      //     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-      //   }
-      // };
 
     </script>
   </body>
