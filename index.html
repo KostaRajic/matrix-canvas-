@@ -34,7 +34,7 @@
 
         colVal.map((posY, index) => {
           const output = Math.random() < 0.5 ? 0 : 1;
-          posX = (index * 10) + 10;
+          posX = (index * 10);
           getContent.fillText(output, posX, posY);
           if (posY > 100 + Math.random() * 300) {
             colVal[index] = 0
